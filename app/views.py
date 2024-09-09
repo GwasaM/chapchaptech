@@ -51,6 +51,16 @@ def blog_post_detail(request, id):
     post = get_object_or_404(BlogPost, id=id)
     return render(request, 'app/blog_post_detail.html', {'post': post})
 
+def home_post_details(request, id):
+    post = get_object_or_404(BlogPost, id=id)
+    #print(home_posts)
+    return render(request, 'app/home.html', {'post': post})
+
+def home_post(request):
+    home_posts = BlogPost.objects.order_by('-published_date')[:2]
+    print(home_posts)
+    return render(request, 'app/home.html', {'home_posts': home_posts})
+
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
