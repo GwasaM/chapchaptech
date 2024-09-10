@@ -6,7 +6,6 @@ from .views import render_page
 
 urlpatterns = [
     path('', views.home, name="home"),
-    path('', views.home_post, name='home_post'),
     path('about-us/', views.about_us, name='about_us'),
     path('blog/', views.blog, name='blog'),
     path('blog/<int:id>/', views.blog_post_detail, name='blog_post_detail'),

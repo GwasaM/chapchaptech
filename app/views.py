@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.contrib import messages
-from .models import BlogPost
+from .models import BlogPost, TeamMember
 from .models import Testimonial
 from .models import Video
 from .models import Carousel
@@ -12,20 +12,28 @@ from .models import Page
 
 # Create your views here.
 def home(request):
-     testimonials = Testimonial.objects.all().order_by('date')[:3]
-     videos = Video.objects.all().order_by('uploaded_at')[:3]
-     carousels = Carousel.objects.all().order_by('published_date')#[:5]
+    testimonials = Testimonial.objects.all().order_by('date')[:3]
+    videos = Video.objects.all().order_by('uploaded_at')[:3]
+    carousels = Carousel.objects.all().order_by('published_date')
+    home_posts = BlogPost.objects.order_by('-published_date')[:2]
 
-     context = {
+    context = {
         'testimonials': testimonials,
         'videos': videos,
         'carousels': carousels,
-     }
-     return render(request, 'app/home.html', context)
+        'home_posts': home_posts,  # Add home_posts to context
+    }
+    return render(request, 'app/home.html', context)
+
 
 def about_us(request):
-     context = {'key':'value'}
-     return render(request, 'app/about.html', context)
+    team_members = TeamMember.objects.all()  # Retrieve all team members from the database
+    context = {
+         'key':'value',
+         'team_members': team_members
+         }
+    return render(request, 'app/about.html', context)
+
 
 def blog(request):
     # Retrieve the most recent blog post as the featured post
@@ -50,16 +58,6 @@ def contact(request):
 def blog_post_detail(request, id):
     post = get_object_or_404(BlogPost, id=id)
     return render(request, 'app/blog_post_detail.html', {'post': post})
-
-def home_post_details(request, id):
-    post = get_object_or_404(BlogPost, id=id)
-    #print(home_posts)
-    return render(request, 'app/home.html', {'post': post})
-
-def home_post(request):
-    home_posts = BlogPost.objects.order_by('-published_date')[:2]
-    print(home_posts)
-    return render(request, 'app/home.html', {'home_posts': home_posts})
 
 def contact(request):
     if request.method == 'POST':

@@ -39,38 +39,26 @@
         <p class="lead">A group of passionate individuals committed to our mission.</p>
       </div>
 
-      <!-- Team Member 1 -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100 text-center">
-          <img src="{% static 'images/slide5.jpg' %}" alt="Team Member 1" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">Pastor John Doe</h5>
-            <p class="card-text">Lead Pastor</p>
+      <!-- Checking if there are any team members -->
+      {% if team_members %}
+        {% for member in team_members %}
+          <!-- Team Member -->
+          <div class="col-lg-4 col-md-6 mb-4 text-center">
+              <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+              <h3>{{ member.name }}</h3>
+              <p><strong>Position:</strong> {{ member.get_position_display }}</p>
+              <p>{{ member.bio }}</p>
+              {% if member.email %}
+              <p><strong>Email:</strong> {{ member.email }}</p>
+              {% endif %}
+              {% if member.phone_number %}
+              <p><strong>Phone:</strong> {{ member.phone_number }}</p>
+              {% endif %}
           </div>
-        </div>
-      </div>
-
-      <!-- Team Member 2 -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100 text-center">
-          <img src="{% static 'images/slide5.jpg' %}" alt="Team Member 2" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">Jane Smith</h5>
-            <p class="card-text">Community Outreach Coordinator</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Team Member 3 -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100 text-center">
-          <img src="{% static 'images/slide5.jpg' %}" alt="Team Member 3" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">Mark Johnson</h5>
-            <p class="card-text">Youth Leader</p>
-          </div>
-        </div>
-      </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-center">No Team Members Yet</p>
+      {% endif %}
     </div>
 
     <!-- Call to Action -->
